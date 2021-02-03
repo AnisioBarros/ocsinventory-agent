@@ -1,6 +1,6 @@
 # Faça o clone do repositório com o comando:
 
-- git clone git@github.com:AnisioBarros/ocsinventory-agent.git
+- git clone https://github.com/AnisioBarros/ocsinventory-agent.git
 
 ## execute o comando: 
 

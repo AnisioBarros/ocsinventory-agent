@@ -10,6 +10,7 @@ sleep 0.5; echo -n " [ OK ]"; echo
 echo -n "Instalando agente do ocs... "
 apt update -y ; 
 DEBIAN_FRONTEND=noninteractive apt install -y ocsinventory-agent
+cp /etc/cron.hourly/ocsinventory-agent /etc/cron.daily/ocsinventory-agent
 cp /etc/cron.daily/ocsinventory-agent /etc/cron.hourly/ocsinventory-agent
 echo -n "Agendando envio de dados de hora em hora... "
 sleep 1.5; echo -n " [ OK ]"; echo 
