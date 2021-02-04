@@ -10,22 +10,24 @@ else
 fi
 
 echo -n "Criando diretorios e dando permissoes... "
+sleep 0.5; echo -n " [ OK ]"; echo 
 
 FILE="/etc/ocsinventory/ocsinventory-agent.cfg"
 if [ -f "$FILE" ]; then
     echo "arquivo ja existe, vou atualizar"
+    sleep 0.5; echo -n " [ OK ]"; echo 
     touch ${FILE} ;
     chmod 0766 ${FILE} ;
         if [ $? -eq 0 ]
         then
         echo "arquivo criado com sucesso"
+        sleep 0.5; echo -n " [ OK ]"; echo 
         else
-        echo "nao foi possivel criar o importa.sh"
+        echo "nao foi possivel criar o arquivo"
         chattr -i ${FILE}
         touch ${FILE} ;
         chmod 0766 ${FILE} ;
         fi
-    sleep 0.5; echo -n " [ OK ]"; echo 
     echo -n "Carregando informacoes do servidor ocs... "
     echo "server=http://ocs.dev.infra.mateus/ocsinventory" > ${FILE} ;
     sleep 2 ; 
@@ -36,24 +38,43 @@ else
         if [ $? -eq 0 ]
         then
         echo "arquivo criado com sucesso"
+        sleep 0.5; echo -n " [ OK ]"; echo 
         else
         echo "nao foi possivel criar o arquivo"
         chattr -i ${FILE}
         fi    
     sleep 0.5; echo -n " [ OK ]"; echo 
-    echo -n "Carregando informacoes do servidor ocs... "        
+    echo -n "Carregando informacoes do servidor ocs... "
+    sleep 0.5; echo -n " [ OK ]"; echo 
     echo "server=http://ocs.dev.infra.mateus/ocsinventory" > ${FILE} ;
     sleep 2 ;     
 fi
-sleep 0.5; echo -n " [ OK ]"; echo 
 echo -n "Instalando agente do ocs... "
-apt update -y ; 
-DEBIAN_FRONTEND=noninteractive apt install -y ocsinventory-agent
+sleep 0.5; echo -n " [ OK ]"; echo 
+
+  if ! apt update
+  then
+      printf "Não foi possível atualizar os repositórios. Verifique seu arquivo /etc/apt/sources.list"
+      exit 1
+  fi
+
+  echo "Atualização de repositório feita com sucesso"
+
+  if ! DEBIAN_FRONTEND=noninteractive apt install ocsinventory-agent -y
+  then
+      printf "Não foi possível instalar o pacote ocsinventory-agent"
+      exit 1
+  fi
+  printf "Instalação do ocsinventory-agent finalizada"
+
+sleep 0.5; echo -n " [ OK ]"; echo 
+
 FILE="/etc/cron.daily/ocsinventory-agent"
 echo -n "Agendando envio de dados de hora em hora... "
 sleep 1.5; echo -n " [ OK ]"; echo 
 if [ -f "$FILE" ]; then
     echo "arquivo ja existe, vou atualizar"
+    sleep 0.5; echo -n " [ OK ]"; echo 
     cp ${FILE} /etc/cron.hourly/ocsinventory-agent
     # chown bin:bin /etc/cron.hourly/ocsinventory-agent
     # chmod 0766 /etc/cron.hourly/ocsinventory-agent
