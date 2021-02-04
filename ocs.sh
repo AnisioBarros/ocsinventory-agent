@@ -3,10 +3,11 @@
 DIR="/etc/ocsinventory/"
 if [ -d "$DIR" ]; then
   echo "diretorio ${DIR} ja existe"
+  sleep 0.5; echo -n " [ OK ]"; echo 
 else
   echo "criando diretorio ${DIR}"
   mkdir -p /etc/ocsinventory/
-  # exit 1
+  sleep 0.5; echo -n " [ OK ]"; echo 
 fi
 
 echo -n "Criando diretorios e dando permissoes... "
@@ -43,7 +44,6 @@ else
         echo "nao foi possivel criar o arquivo"
         chattr -i ${FILE}
         fi    
-    sleep 0.5; echo -n " [ OK ]"; echo 
     echo -n "Carregando informacoes do servidor ocs... "
     sleep 0.5; echo -n " [ OK ]"; echo 
     echo "server=http://ocs.dev.infra.mateus/ocsinventory" > ${FILE} ;
@@ -76,8 +76,6 @@ if [ -f "$FILE" ]; then
     echo "arquivo ja existe, vou atualizar"
     sleep 0.5; echo -n " [ OK ]"; echo 
     cp ${FILE} /etc/cron.hourly/ocsinventory-agent
-    # chown bin:bin /etc/cron.hourly/ocsinventory-agent
-    # chmod 0766 /etc/cron.hourly/ocsinventory-agent
     sleep 2 ; 
     /etc/init.d/cron restart
     echo -n "Restart do cron... "
